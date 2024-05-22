@@ -1,0 +1,47 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите строку с IP-адресом:");
+        String n = scanner.nextLine();
+        scanner.close();
+
+        Pattern pattern = Pattern.compile("([0-9]{1,3}[\\.]){3}[0-9]{1,3}");
+        Matcher matcher = pattern.matcher(n);
+
+        if (matcher.find()) {
+            String ipAddress = matcher.group();
+            System.out.println("Найден IP-адрес: " + ipAddress);
+
+            // IP-адрес в файл
+            try {
+                File file = new File("ip_addresses.txt");
+                FileWriter writer = new FileWriter(file, true);
+                writer.write(ipAddress + "\n");
+                writer.close();
+                System.out.println(" IP-адрес записан в файл ip_addresses.txt.");
+            } catch (IOException e) {
+                System.out.println("Ошибка.");
+            }
+        } else {
+            System.out.println("IP-адрес не найден.");
+
+            //  IP-адрес не найден
+            try {
+                File file = new File("ip_addresses.txt");
+                FileWriter writer = new FileWriter(file, true);
+                writer.write("IP-адрес не найден\n");
+                writer.close();
+                System.out.println(" 'IP-адрес не найден' записан в файл ip_addresses.txt.");
+            } catch (IOException e) {
+                System.out.println("Ошибка.");
+            }
+        }
+    }
+}
