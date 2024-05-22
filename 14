@@ -7,15 +7,16 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите строку с IP-адресом:");
         String n = scanner.nextLine();
+        
 
-
-        Pattern pattern = Pattern.compile("([0-9]{1,3}[\\.]){3}[0-9]{1,3}");
+        String ip = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+Pattern pattern = Pattern.compile(ip);
         Matcher matcher = pattern.matcher(n);
 
         if (matcher.find()) {
             System.out.println("Найден IP-адрес: " + matcher.group());
         } else {
-            System.out.println("IP-адрес не найден .");
+            System.out.println("IP-адрес не найден.");
         }
     }
 }
