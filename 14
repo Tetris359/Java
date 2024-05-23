@@ -7,13 +7,13 @@ public class Main {
         Scanner input = new Scanner(System.in);
             System.out.print("Введите строку: ");
             String ip = input.nextLine();
-        String regex = "(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[01]?\\d?\\d)){3}";
+        String regex = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(ip);
         if (matcher.find()) {
             System.out.println("Найденный IP-адрес: " + matcher.group());
         } else {
-            System.out.println("IP-адрес не найден .");
+            System.out.println("IP-адрес не найден в строке.");
         }
     }
 }
