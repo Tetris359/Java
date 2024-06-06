@@ -9,14 +9,14 @@ public class Main {
                 BufferedWriter writer = new BufferedWriter(new FileWriter("outputFile.txt"))
         ) {
             String line;
-            StringBuilder code = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             String regex = "(/\\*.([\\S\\s]+?)\\*/)|(//.*)";
             Pattern pattern = Pattern.compile(regex);
 
             while ((line = reader.readLine()) != null) {
-                code.append(line).append("\n");
+                sb.append(line).append("\n");
             }
-            line = code.toString();
+            line = sb.toString();
             Matcher matcher = pattern.matcher(line);
             line = matcher.replaceAll("");
 
