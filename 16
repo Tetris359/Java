@@ -10,7 +10,7 @@ public class Main {
         ) {
             String line;
             StringBuilder code = new StringBuilder();
-            String regex = "(/\\*([\\S\\s]+?)\\*/)|(//.*)";
+            String regex = "(/\\*.([\\S\\s]+?)\\*/)|(//.*)";
             Pattern pattern = Pattern.compile(regex);
 
             while ((line = reader.readLine()) != null) {
