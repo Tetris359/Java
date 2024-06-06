@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class Main {
     public static void main(String[] args) {
         try (
-                BufferedReader reader = new BufferedReader(new FileReader("ip_addresses.txt"));
+                BufferedReader reader = new BufferedReader(new FileReader("inputFile.txt"));
                 BufferedWriter writer = new BufferedWriter(new FileWriter("outputFile.txt"))
         ) {
             String line;
@@ -24,6 +24,4 @@ public class Main {
             System.out.println("Комментарии удалены. Код  сохранен в outputFile.txt");
         } catch (Exception e) {
             System.out.println("Произошла ошибка при удалении комментариев: " + e.getMessage());
-        }
-    }
-}
+        }}}
