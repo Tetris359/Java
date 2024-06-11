@@ -17,9 +17,9 @@ public class Main {
         for (int i = 0; i < length; i++) {
             array[i] = scanner.nextInt();}
 
-        ArraySorter ascendingSorter = array1 -> Arrays.sort(array1);
+        ArraySorter increase = array1 -> Arrays.sort(array1);
 
-        ArraySorter descendingSorter = array1 -> {
+        ArraySorter decrease = array1 -> {
             Arrays.sort(array1);
             for (int i = 0, j = array1.length - 1; i < j; i++, j--) {
                 int temp = array1[i];
@@ -27,8 +27,8 @@ public class Main {
                 array1[j] = temp;
             }
         };
-        sortArray(array, ascendingSorter);
+        sortArray(array, increase);
         System.out.println("Массив, отсортированный по возрастанию: " + Arrays.toString(array));
 
-        sortArray(array, descendingSorter);
+        sortArray(array, decrease);
         System.out.println("Массив, отсортированный по убыванию: " + Arrays.toString(array));}}
