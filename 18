@@ -1,21 +1,22 @@
 import java.util.Arrays;
 import java.util.Scanner;
+
 interface ArraySorter {
     void sort(int[] array);
 }
+
 public class Main {
-    public static void sortArray(int[] array, ArraySorter sorter) {
-        sorter.sort(array);
-    }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Введите длину массива: ");
-        int length = scanner.nextInt();
-        int[] array = new int[length];
+        System.out.print("Введите размер массива: ");
+        int size = scanner.nextInt();
+        int[] array = new int[size];
+
         System.out.println("Введите элементы массива:");
-        for (int i = 0; i < length; i++) {
-            array[i] = scanner.nextInt();}
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
 
         ArraySorter increase = array1 -> Arrays.sort(array1);
 
@@ -27,8 +28,12 @@ public class Main {
                 array1[j] = temp;
             }
         };
-        sortArray(array, increase);
-        System.out.println("Массив, отсортированный по возрастанию: " + Arrays.toString(array));
+        System.out.println("Введеный массив: " + Arrays.toString(array));
 
-        sortArray(array, decrease);
-        System.out.println("Массив, отсортированный по убыванию: " + Arrays.toString(array));}}
+        increase.sort(array);
+        System.out.println("Отсортированный по возрастанию: " + Arrays.toString(array));
+
+        decrease.sort(array);
+        System.out.println("Отсортированный по убыванию: " + Arrays.toString(array));
+    }
+}
