@@ -1,0 +1,43 @@
+interface Transport {
+    void deliver();
+}
+class Truck implements Transport {
+    @Override
+    public void deliver() {
+        System.out.println("Грузовик. Перевозка по дороге");
+    }
+}
+class Ship implements Transport {
+    @Override
+    public void deliver() {
+        System.out.println("Судно. Перевозка по морю");
+    }
+}
+class Airplane implements Transport {
+    @Override
+    public void deliver() {
+        System.out.println("Самолет. Перевозка по воздуху");
+    }
+}
+class TransportFactory {
+    public Transport createTransport(String transportType) {
+        if (transportType.equalsIgnoreCase("Truck")) {
+            return new Truck();
+        } else if (transportType.equalsIgnoreCase("Ship")) {
+            return new Ship();
+        } else if (transportType.equalsIgnoreCase("Airplane")) {
+            return new Airplane();
+        } else {
+            return null;
+        }
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        TransportFactory transportFactory = new TransportFactory();
+        Transport truck = transportFactory.createTransport("Truck");
+        truck.deliver();
+        Transport ship = transportFactory.createTransport("Ship");
+        ship.deliver();
+        Transport airplane = transportFactory.createTransport("Airplane");
+        airplane.deliver();}}
