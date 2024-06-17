@@ -1,0 +1,113 @@
+enum Size {
+    XXS(32) {
+        @Override
+        public String getDescription() {
+            return "Детский размер";
+        }
+    },
+    XS(34),
+    S(36),
+    M(38),
+    L(40);
+    private int euroSize;
+    Size(int euroSize) {
+        this.euroSize = euroSize;
+    }
+    public String getDescription() {
+        return "Взрослый размер";
+    }
+    public int getEuroSize() {
+        return euroSize;
+    }
+}
+interface MenClothing {
+    void dressMan();
+}
+interface WomenClothing {
+    void dressWoman();
+}
+abstract class Clothing {
+    Size size;
+    double cost;
+    String color;
+
+    public Clothing(Size size, double cost, String color) {
+        this.size = size;
+        this.cost = cost;
+        this.color = color;
+    }
+}
+class Tshirt extends Clothing implements MenClothing, WomenClothing {
+    public Tshirt(Size size, double cost, String color) {
+        super(size, cost, color);
+    }
+
+    @Override
+    public void dressMan() {
+        System.out.println("Мужчина в  футболке " + size + " размера, цвета " + color + ", стоимостью " + cost);
+    }
+
+    @Override
+    public void dressWoman() {
+        System.out.println("Женщина в футболке " + size + " размера, цвета " + color + ", стоимостью " + cost);
+    }
+}
+
+class Pants extends Clothing implements MenClothing, WomenClothing {
+    public Pants(Size size, double cost, String color) {
+        super(size, cost, color);
+    }
+    @Override
+    public void dressMan() {
+        System.out.println("Мужчина в штанах " + size + " размера, цвета " + color + ", стоимостью " + cost);
+    }
+    @Override
+    public void dressWoman() {
+        System.out.println("Женщина в штанах " + size + " размера, цвета " + color + ", стоимостью " + cost);
+    }
+}
+class Skirt extends Clothing implements WomenClothing {
+    public Skirt(Size size, double cost, String color) {
+        super(size, cost, color);
+    }
+    @Override
+    public void dressWoman() {
+        System.out.println("Женщина в юбке " + size + " размера, цвета " + color + ", стоимостью " + cost);
+    }
+}
+class Tie extends Clothing implements MenClothing {
+    public Tie(Size size, double cost, String color) {
+        super(size, cost, color);
+    }
+    @Override
+    public void dressMan() {
+        System.out.println("Мужчина в галстуке " + size + " размера, цвета " + color + ", стоимостью " + cost);
+    }
+}
+public class Main {
+    public void dressWoman(Clothing[] clothes) {
+        System.out.println("Женщина:");
+        for (Clothing item : clothes) {
+            if (item instanceof WomenClothing) {
+                ((WomenClothing) item).dressWoman();
+            }
+        }
+    }
+    public void dressMan(Clothing[] clothes) {
+        System.out.println("Мужчина:");
+        for (Clothing item : clothes) {
+            if (item instanceof MenClothing) {
+                ((MenClothing) item).dressMan();
+            }
+        }
+    }
+    public static void main(String[] args) {
+        Clothing[] clothes = {
+                new Tshirt(Size.M, 2000.0, "синий"),
+                new Pants(Size.L, 3000.0, "черный"),
+                new Skirt(Size.S, 2500.0, "красный"),
+                new Tie(Size.M, 1000.0, "бордовый")
+        };
+        Main atelier = new Main();
+        atelier.dressWoman(clothes);
+        atelier.dressMan(clothes);}}
