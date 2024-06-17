@@ -86,16 +86,16 @@ class Tie extends Clothing implements MenClothing {
 }
 public class Main {
     public void dressWoman(Clothing[] clothes) {
-        for (Clothing item : clothes) {
-            if (item instanceof WomenClothing) {
-                ((WomenClothing) item).dressWoman();
+        for (Clothing cl : clothes) {
+            if (cl instanceof WomenClothing) {
+                ((WomenClothing) cl).dressWoman();
             }
         }
     }
     public void dressMan(Clothing[] clothes) {
-        for (Clothing item : clothes) {
-            if (item instanceof MenClothing) {
-                ((MenClothing) item).dressMan();
+        for (Clothing cl : clothes) {
+            if (cl instanceof MenClothing) {
+                ((MenClothing) cl).dressMan();
             }
         }
     }
@@ -104,7 +104,7 @@ public class Main {
                 new Tshirt(Size.M, 2000.8, "синий"),
                 new Pants(Size.L, 3000.90, "черный"),
                 new Skirt(Size.S, 2500.65, "красный"),
-                new Tie(Size.M, 1000.34, "бордовый")
+                new Tie(Size.M, 1000.34, "черный")
         };
         Main atelier = new Main();
         atelier.dressWoman(clothes);
