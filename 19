@@ -9,7 +9,7 @@ enum Size {
     S(36),
     M(38),
     L(40);
-    private int euroSize;
+    private final int euroSize;
     Size(int euroSize) {
         this.euroSize = euroSize;
     }
@@ -86,7 +86,6 @@ class Tie extends Clothing implements MenClothing {
 }
 public class Main {
     public void dressWoman(Clothing[] clothes) {
-        System.out.println("Женщина:");
         for (Clothing item : clothes) {
             if (item instanceof WomenClothing) {
                 ((WomenClothing) item).dressWoman();
@@ -94,7 +93,6 @@ public class Main {
         }
     }
     public void dressMan(Clothing[] clothes) {
-        System.out.println("Мужчина:");
         for (Clothing item : clothes) {
             if (item instanceof MenClothing) {
                 ((MenClothing) item).dressMan();
