@@ -10,8 +10,7 @@ public class Main {
                     array[j + 1] = temp;
                 }
             }
-
-    }
+        }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите размер массива: ");
@@ -22,13 +21,11 @@ public class Main {
         for (int i = 0; i < array.length; i++) {
             array[i] = scanner.nextInt();
         }
-
         Sort(array, (a, b) -> a - b);
         System.out.print("Отсортированный массив по убыванию: ");
         for (int num : array) {
             System.out.print(num + " ");
         }
-
         Sort(array, (a, b) -> b - a);
         System.out.print("\nОтсортированный массив по возростанию: ");
         for (int num : array) {
