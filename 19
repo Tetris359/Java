@@ -101,10 +101,10 @@ public class Main {
     }
     public static void main(String[] args) {
         Clothing[] clothes = {
-                new Tshirt(Size.M, 2000.0, "синий"),
-                new Pants(Size.L, 3000.0, "черный"),
-                new Skirt(Size.S, 2500.0, "красный"),
-                new Tie(Size.M, 1000.0, "бордовый")
+                new Tshirt(Size.M, 2000.8, "синий"),
+                new Pants(Size.L, 3000.90, "черный"),
+                new Skirt(Size.S, 2500.65, "красный"),
+                new Tie(Size.M, 1000.34, "бордовый")
         };
         Main atelier = new Main();
         atelier.dressWoman(clothes);
