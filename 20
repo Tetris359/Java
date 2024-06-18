@@ -1,26 +1,31 @@
 import java.util.Scanner;
-class ExpressionCalculator {
-    private static ExpressionCalculator expressionCalculator=new ExpressionCalculator();
-    private int x;
-    private int y;
-    private ExpressionCalculator() {
+class Calculator {
+    private static Calculator calculator = new Calculator();
+    private double x;
+    private double y;
+    private Calculator() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите значение x: ");
-        x = scanner.nextInt();
+        x = scanner.nextDouble();
         System.out.print("Введите значение y: ");
-        y = scanner.nextInt();
+        y = scanner.nextDouble();
     }
-    public static ExpressionCalculator getInstance() {
-        return expressionCalculator;
+    public static Calculator getInstance() {
+        return calculator;
     }
     public void calculateAndPrint() {
-        int result = 2 * x + 3 / y;
+        double result = 2 * x + 3 / y;
         System.out.println("Ответ: 2*x + 3/y = " + result);
     }
 }
 class Main {
     public static void main(String[] args) {
-        ExpressionCalculator calculator = ExpressionCalculator.getInstance();
+        Calculator calculator = Calculator.getInstance();
         calculator.calculateAndPrint();
+        if (calculator.hashCode() == Calculator.getInstance().hashCode()) {
+            System.out.println("ok");
+        } else {
+            System.out.println("error");
+        }
     }
 }
