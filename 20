@@ -1,6 +1,6 @@
 import java.util.Scanner;
 class ExpressionCalculator {
-    private static ExpressionCalculator instance;
+    private static ExpressionCalculator expressionCalculator=new ExpressionCalculator();
     private int x;
     private int y;
     private ExpressionCalculator() {
@@ -11,10 +11,7 @@ class ExpressionCalculator {
         y = scanner.nextInt();
     }
     public static ExpressionCalculator getInstance() {
-        if (instance == null) {
-            instance = new ExpressionCalculator();
-        }
-        return instance;
+        return expressionCalculator;
     }
     public void calculateAndPrint() {
         int result = 2 * x + 3 / y;
@@ -23,7 +20,7 @@ class ExpressionCalculator {
 }
 class Main {
     public static void main(String[] args) {
-        ExpressionCalculator calculator = ExpressionCalculator.getInstance(); 
-        calculator.calculateAndPrint(); 
+        ExpressionCalculator calculator = ExpressionCalculator.getInstance();
+        calculator.calculateAndPrint();
     }
 }
