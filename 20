@@ -1,20 +1,29 @@
 import java.util.Scanner;
-public class Main {
+class ExpressionCalculator {
+    private static ExpressionCalculator instance;
     private int x;
     private int y;
-    public Main() {
+    private ExpressionCalculator() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите значение x: ");
         x = scanner.nextInt();
         System.out.print("Введите значение y: ");
         y = scanner.nextInt();
     }
-    public void calculateExpression() {
-        int result = 2 * x + 3 / y;
-        System.out.println("Результат выражения 2*x + 3/y = " + result);
+    public static ExpressionCalculator getInstance() {
+        if (instance == null) {
+            instance = new ExpressionCalculator();
+        }
+        return instance;
     }
+    public void calculateAndPrint() {
+        int result = 2 * x + 3 / y;
+        System.out.println("Ответ: 2*x + 3/y = " + result);
+    }
+}
+class Main {
     public static void main(String[] args) {
-        Main calculator = new Main();
-        calculator.calculateExpression();
+        ExpressionCalculator calculator = ExpressionCalculator.getInstance(); 
+        calculator.calculateAndPrint(); 
     }
 }
