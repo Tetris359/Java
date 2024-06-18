@@ -44,7 +44,7 @@ class Tshirt extends Clothing implements MenClothing, WomenClothing {
 
     @Override
     public void dressMan() {
-        System.out.println("Мужчина в  футболке " + size + " размера, цвета " + color + ", стоимостью " + cost);
+        System.out.println("\nМужчина в  футболке " + size + " размера, цвета " + color + ", стоимостью " + cost);
     }
 
     @Override
