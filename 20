@@ -1,33 +1,30 @@
 package com.company;
-
 import java.util.Scanner;
 class Calculator {
     private static Calculator calculator = new Calculator();
-    private double x;
-    private double y;
-    private Calculator() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите значение x: ");
-        x = scanner.nextDouble();
-        System.out.print("Введите значение y: ");
-        y = scanner.nextDouble();
+    private Calculator(){
     }
     public static Calculator getInstance() {
         return calculator;
     }
-    public void calculateAndPrint() {
-        double result = 2 * x + 3 / y;
-        System.out.println("Ответ: 2*x + 3/y = " + result);
+    public double operation(double x, double y) {
+        return 2 * x + 3 / y;
     }
 }
-class Main {
+class Main
+{
     public static void main(String[] args) {
         Calculator calculator = Calculator.getInstance();
-        calculator.calculateAndPrint();
-        if (calculator.hashCode() == calculator.hashCode()) {
-            System.out.println("ok");
-        } else {
-            System.out.println("error");
-        }
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.println("Введите x: ");
+        double x = in.nextDouble();
+
+        System.out.println("Введите y: ");
+        double y = in.nextDouble();
+
+        double result = calculator.operation(x, y);
+        System.out.println(result);
     }
 }
