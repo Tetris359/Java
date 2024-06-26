@@ -1,3 +1,5 @@
+package com.company;
+
 import java.util.Scanner;
 class Calculator {
     private static Calculator calculator = new Calculator();
@@ -22,7 +24,7 @@ class Main {
     public static void main(String[] args) {
         Calculator calculator = Calculator.getInstance();
         calculator.calculateAndPrint();
-        if (calculator.hashCode() == Calculator.getInstance().hashCode()) {
+        if (calculator.hashCode() == calculator.hashCode()) {
             System.out.println("ok");
         } else {
             System.out.println("error");
