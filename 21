@@ -1,31 +1,27 @@
 package com.company;
-import java.util.ArrayList;
-import java.util.List;
 abstract class Transport {
     String name;
-    List<String> features = new ArrayList<>();
-
-    @Override
+    String features;
     public String toString() {
-        return "Транспорт: " + name + " " + features;
+        return "Транспорт: " + name + "-" + features;
     }
 }
 class Truck extends Transport {
     public Truck() {
         name = "Truck";
-        features.add("Перевозка по дороге");
+        features= "Перевозка по дороге";
     }
 }
 class Ship extends Transport {
     public Ship() {
         name = "Ship";
-        features.add("Перевозка по морю");
+        features="Перевозка по морю";
     }
 }
 class Airplane extends Transport {
     public Airplane() {
         name = "Airplane";
-        features.add("Перевозка по воздуху");
+        features="Перевозка по воздуху";
     }
 }
 abstract class TransportFactory {
