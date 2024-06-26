@@ -1,3 +1,4 @@
+package com.company;
 import java.util.ArrayList;
 import java.util.List;
 abstract class Transport {
@@ -9,21 +10,18 @@ abstract class Transport {
         return "Транспорт: " + name + " " + features;
     }
 }
-// Класс грузовик
 class Truck extends Transport {
     public Truck() {
         name = "Truck";
         features.add("Перевозка по дороге");
     }
 }
-// Класс судна
 class Ship extends Transport {
     public Ship() {
         name = "Ship";
         features.add("Перевозка по морю");
     }
 }
-// Класс самолета
 class Airplane extends Transport {
     public Airplane() {
         name = "Airplane";
