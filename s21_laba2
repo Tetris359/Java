@@ -1,0 +1,45 @@
+import java.util.Random;
+public class Main {
+    public static void main(String[] args) {
+        final int array = 10;// Размер массива
+        int[] numbers = new int[array];// Массив чисел
+        Random random = new Random();
+        // Заполнение массива
+        for (int i = 0; i < array; i++) {
+            numbers[i] = random.nextInt(101) ; // Случайные числа 
+        }
+        int max2 = 0;
+        int max7 = 0;
+        int max14 = 0;
+        int max = 0;
+
+        for (int i = 0; i < array; i++) {
+            if (numbers[i] % 14 == 0 && numbers[i] > max14) {
+                max14 = numbers[i];
+            } else if (numbers[i] % 2 == 0 && numbers[i] > max2) {
+                max2 = numbers[i];
+            } else if (numbers[i] % 7 == 0 && numbers[i] > max7) {
+                max7 = numbers[i];
+            } else if (numbers[i] > max) {
+                max = numbers[i];
+            }
+        }
+        int result1 = 0;
+        int result2 = 0;
+        //условие в котором число состоит из произведения кратного 14
+        if(max != 101 && max14 != 101) {
+          result2 = max * max14;
+        }
+        //условие в котором число состоит из произведения кратного 2 и 7
+        if(max2 != 101 && max7 != 101) {
+            result1 = max2 * max7;
+        }
+
+        int response = Math.max(result1, result2);
+        if (response != 0) {
+            System.out.println("Число: " + response); //результат
+        } else {
+            System.out.println(-1);
+        }
+    }
+}
