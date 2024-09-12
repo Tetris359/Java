@@ -1,0 +1,39 @@
+public class MajorityElement {
+    public static int findMajorityElement(int[] arr) {
+        int candidate = arr[0]; // Начальное предположение
+        int count = 1; // Количество вхождений кандидата
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] == candidate) {
+                count++;
+            } else {
+                count--;
+                if (count == 0) { // Если счетчик обнулился берем новый кандидат
+                    candidate = arr[i];
+                    count = 1;
+                }
+            }
+        }
+        // Проверка-является ли кандидат мажоритарным элементом
+        count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == candidate) {
+                count++;
+            }
+        }
+        if (count > arr.length / 2) {
+            return candidate;
+        } else {
+            return -1; // Мажоритарного элемента нет
+        }
+    }
+    public static void main(String[] args) {
+        int[] arr = {7, 7, 11, 3, 7, 9, 7, 8, 7, 7};
+        int majorityElement = findMajorityElement(arr);
+        if (majorityElement != -1) {
+            System.out.println("Мажоритарный элемент: " + majorityElement);
+        } else {
+            System.out.println("Мажоритарного элемента нет");
+        }
+    }
+}
