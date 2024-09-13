@@ -1,0 +1,56 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        final int maxvotes = 1000;//максимальное кол-во смс
+        final int Сouples = 16;//кол-во пар
+
+        // Ввод количества SMS-сообщений
+        int n = 0;
+        System.out.println("Введите кол-во смс:");
+        while (true) {
+            n = in.nextInt();
+            if (n <= maxvotes) break;
+            else System.out.println("Неверно-попробуйте ещё раз:");
+        }
+
+        // Хранение количества голосов за каждую пару
+        HashMap<Integer, Integer> votes = new HashMap<>();
+
+        // Заполнение количества голосов 0 для всех пар
+        for (int i = 1; i <= Сouples; i++) {
+            votes.put(i, 0);
+        }
+
+        System.out.println("Введите пары, за которые хотите проголосовать:");
+        for (int i = 0; i < n; i++) {
+            int coupleNumber = in.nextInt();
+            if (coupleNumber >= 1 && coupleNumber <= Сouples) {
+                votes.put(coupleNumber, votes.get(coupleNumber) + 1);
+            } else {
+                System.out.println("Неверно введено: " + coupleNumber);
+            }
+        }
+
+        // Создание списка для сортировки
+        List<Map.Entry<Integer, Integer>> couples = new ArrayList<>(votes.entrySet());
+
+        // Сортировка вставками в порядке убывания(голоса)
+        for (int i = 1; i < couples.size(); i++) {
+            Map.Entry<Integer, Integer> key = couples.get(i);
+            int j = i - 1;
+
+            // Перемещение элементов, которые меньше ключа, на одну позицию вперед
+            while (j >= 0 && couples.get(j).getValue() < key.getValue()) {
+                couples.set(j + 1, couples.get(j));
+                j--;
+            }
+            couples.set(j + 1, key);
+        }
+        //Вывод результата
+        System.out.println("Итоги голосования: ");
+        for (Map.Entry<Integer, Integer> couple : couples) {
+            System.out.println("Пара под номером " + couple.getKey() + ": " + couple.getValue() + " голоса");
+        }
+    }
+}
