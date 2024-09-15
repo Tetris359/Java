@@ -1,0 +1,52 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Ввод чисел a и b
+        System.out.print("Введите x: ");
+        double x = scanner.nextDouble();
+        System.out.print("Введите z: ");
+        double z = scanner.nextDouble();
+
+        // Выбор определенной формулы
+        System.out.println("Выберите формулу:");
+        System.out.println("1) Цикл");
+        System.out.println("2) exp(ln(x) + ln(z))");
+        System.out.println("3) Result = z/(1/x)");
+        System.out.print("Введите ее номер: ");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                // Формула 1
+                double p = 0;
+                for (int i = 1; i <= x; i++) {
+                    p = p + z;
+                }
+                System.out.println("Результат формулы 1: " + p);
+                break;
+
+            case 2:
+                // Формула 2
+                double result2 = Math.exp(Math.log(x) + Math.log(z));
+                System.out.println("Результат формулы 2: " + result2);
+                break;
+
+            case 3:
+                // Формула 3
+                if (x != 0) {
+                    double result3 = z / (1 / x);
+                    System.out.println("Результат формулы 3: " + result3);
+                } else {
+                    System.out.println("Ошибка");
+                }
+                break;
+
+            default:
+                System.out.println("Неверный выбор. Выберите 1, 2 или 3.");
+                break;
+        }
+        scanner.close();
+    }
+}
