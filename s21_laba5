@@ -1,0 +1,30 @@
+import java.io.IOException;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Process process = null;
+        try {
+            // Создание процесса
+            Scanner in = new Scanner(System.in);
+
+            System.out.println("Введите exe: ");
+            String enterProcess = in.nextLine();
+            ProcessBuilder processBuilder = new ProcessBuilder(enterProcess);
+            process = processBuilder.start();
+            System.out.println("Процесс запущен: " + process.pid());
+
+            // Задержка на 6 секунд, чтобы процесс успел запуститься
+            Thread.sleep(6000);
+
+            // Завершение процесса
+            Runtime.getRuntime().exec("taskkill /F /IM "+ enterProcess);// Вызов метода `exec()`, который запускает внешнюю команду
+            process.destroy();// Вызов метода объекта чтобы завершить процесс
+            System.out.println("Процесс завершен.");
+
+        } catch (IOException e) {
+            System.err.println("Ошибка при создании процесса: " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.err.println("Ошибка при ожидании: " + e.getMessage());
+        }
+    }
+}
