@@ -1,0 +1,43 @@
+public class Animal extends Thread {
+    private String name;
+    private int distance = 0;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void run() {
+        while (distance < 100) { // дистанция до 100
+            distance += (int) (Math.random() * 9) + 1; // случайный шаг от 1 до 9 метров
+            System.out.println(name + " пробежал " + distance + " метров.");
+            try {
+                Thread.sleep(500); // задержка для имитации времени
+            } catch (InterruptedException e) {
+                System.out.println(name + " был прерван!");
+                return;
+            }
+        }
+        System.out.println(name + " финишировал!");
+    }
+}
+
+
+public class RabbitAndTurtle {
+    public static void main(String[] args) {
+        Animal rabbit = new Animal("Кролик");
+        Animal turtle = new Animal("Черепаха");
+
+        rabbit.start(); //  поток для крола
+        turtle.start(); //  поток для черехи
+
+        try {
+            rabbit.join();
+            turtle.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Гонка завершена!");
+    }
+}
