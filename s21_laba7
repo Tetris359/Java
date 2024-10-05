@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class ChocolateCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Ввод данных
+        System.out.print("Введите деньги: ");
+        int money = scanner.nextInt();
+
+        System.out.print("Введите цену за шоколадку: ");
+        int price = scanner.nextInt();
+
+        System.out.print("Введите количество оберток : ");
+        int wrap = scanner.nextInt();
+
+        //максимальное количество шоколадок
+        int volueMax = money / price;
+        int wrappers = volueMax;
+
+        // обмен
+        while (wrappers >= wrap) {
+            int x = wrappers / wrap;
+            volueMax += x;
+            wrappers = x + (wrappers % wrap);
+        }
+        // Вывод результата
+        System.out.println("Максимальное количество шоколадок: " + volueMax);
+
+        scanner.close();
+    }
+}
