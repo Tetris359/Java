@@ -1,0 +1,44 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+public class Main {
+    public static void main(String[] args) {
+        String filePath = "D:/Текст.svc";
+
+        try {
+            // чтение с помощью Files.readAllLines()
+            List<String> lines = Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
+
+            // Подсчет статистики
+            int totalChars = 0;
+            int totalCharsWithoutSpaces = 0;
+            int wordCount = 0;
+
+            for (String line : lines) {
+                totalChars += line.length();
+                totalCharsWithoutSpaces += line.replace(" ", "").length();
+                wordCount += line.split("\\s+").length;
+            }
+
+            // Вывод статистики в консоль
+            System.out.println("Количество символов: " + totalChars);
+            System.out.println("Количество символов без пробелов: " + totalCharsWithoutSpaces);
+            System.out.println("Количество слов: " + wordCount);
+
+            // Запись статистики в файл
+            try (FileWriter writer = new FileWriter(new File("statistics.txt"))) {
+                writer.write("Количество символов: " + totalChars + "\n");
+                writer.write("Количество символов без пробелов: " + totalCharsWithoutSpaces + "\n");
+                writer.write("Количество слов: " + wordCount + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
