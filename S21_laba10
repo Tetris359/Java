@@ -1,0 +1,60 @@
+import java.io.*;
+import java.util.concurrent.*;
+
+public class FileCopyUtility {
+
+    public static void main(String[] args) {
+        String firstSource = "C:\\сороконожка\\source1.txt"; // Имя первого файла
+        String secondSource = "C:\\сороконожка\\source2.txt"; // Имя второго файла
+        String firstDestination = "C:\\сороконожка\\destination1.txt"; // Путь первого файла для копирования
+        String secondDestination = "C:\\сороконожка\\destination2.txt"; // Путь второго файла для копирования
+
+        // Копирование одно за другим
+        long startSequential = System.currentTimeMillis();
+        performCopy(firstSource, firstDestination);
+        performCopy(secondSource, secondDestination);
+        long endSequential = System.currentTimeMillis();
+        System.out.println("Время для последовательного копирования: " + (endSequential - startSequential) + " мс");
+
+        // Копирование параллельно
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
+        long startParallel = System.currentTimeMillis();
+
+        Future<Void> task1 = executorService.submit(() -> {
+            performCopy(firstSource, firstDestination);
+            return null;
+        });
+
+        Future<Void> task2 = executorService.submit(() -> {
+            performCopy(secondSource, secondDestination);
+            return null;
+        });
+
+        try {
+            task1.get();
+            task2.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            executorService.shutdown();
+        }
+
+        long endParallel = System.currentTimeMillis();
+        System.out.println("Время для параллельного копирования: " + (endParallel - startParallel) + " мс");
+    }
+
+    private static void performCopy(String source, String destination) {
+        try (InputStream inputStream = new FileInputStream(source);
+             OutputStream outputStream = new FileOutputStream(destination)) {
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            System.out.println("Копирование из " + source + " в " + destination + " завершено.");
+        } catch (IOException e) {
+            System.err.println("Ошибка при копировании файла: " + e.getMessage());
+        }
+    }
+}
