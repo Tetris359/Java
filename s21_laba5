@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Process process = null;
         try {
-            // Создание процесса
+            // Создание процесса 
             Scanner in = new Scanner(System.in);
 
             System.out.println("Введите exe: ");
