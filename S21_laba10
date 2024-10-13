@@ -56,5 +56,4 @@ public class FileCopyUtility {
         } catch (IOException e) {
             System.err.println("Ошибка при копировании файла: " + e.getMessage());
         }
-    }
-}
+    }}
