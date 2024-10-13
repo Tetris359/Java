@@ -71,5 +71,4 @@ public class Main {
 
         // вывод остатка на балансе
         System.out.printf("Итого: %.2f%n", account.getBalance());
-    }
-}
+    }}
