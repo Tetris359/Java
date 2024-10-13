@@ -1,0 +1,75 @@
+import java.util.Random;
+class Account {
+    private double balance; // баланс счета
+    private final Object lock = new Object(); // объект для синхронизации
+    public Account() {
+        this.balance = 0.0;
+    }
+
+    // метод для пополнения баланса
+    public void deposit(double amount) {
+        synchronized (lock) {
+            balance += amount;
+            System.out.printf("Внесено: %.2f, Новый баланс: %.2f%n", amount, balance);
+            lock.notifyAll(); // Уведомляем ожидающие потоки
+        }
+    }
+
+    // метод для снятия средств
+    public void withdraw(double amount) throws InterruptedException {
+        synchronized (lock) {
+            while (balance < amount) {
+                System.out.printf("Ожидание получения достаточного количества средств для вывода: %.2f%n", amount);
+                lock.wait(); // Ожидание, пока не будет достаточно средств
+            }
+            balance -= amount;
+            System.out.printf("Выведено: %.2f, Оставшийся балансe: %.2f%n", amount, balance);
+        }
+    }
+
+    // метод для получения текущего баланса
+    public double getBalance() {
+        synchronized (lock) {
+            return balance;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Account account = new Account();
+        Random random = new Random();
+
+        // поток для пополнения счета
+        Thread depositThread = new Thread(() -> {
+            while (true) {
+                double amount = random.nextDouble() * 100; // рандомная сумма для пополнения
+                account.deposit(amount);
+                try {
+                    Thread.sleep(random.nextInt(1000)); // задержка перед другим пополнением
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+        });
+
+        depositThread.start();
+
+        // основной поток для снятия средств
+        try {
+            Thread.sleep(2000); // ожидание перед первой попыткой снятия
+            account.withdraw(150); //  снятие 150
+            Thread.sleep(2000); // ожидание другой попыткой снятия
+            account.withdraw(250); // снятие 250
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // завершение поток пополнения
+        depositThread.interrupt();
+
+        // вывод остатка на балансе
+        System.out.printf("Итого: %.2f%n", account.getBalance());
+    }
+}
