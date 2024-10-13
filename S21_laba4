@@ -3,7 +3,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Ввод чисел a и b
+        // Ввод чисел a и b 
         System.out.print("Введите x: ");
         double x = scanner.nextDouble();
         System.out.print("Введите z: ");
