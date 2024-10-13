@@ -18,6 +18,7 @@ public class Animal extends Thread {
                 return;
             }
         }
+
         System.out.println(name + " финишировал!");
     }
 }
