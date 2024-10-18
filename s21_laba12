@@ -1,0 +1,35 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+public class Main {
+    public static void main(String[] args) {
+        String fileLocation = "C:\\Users\\savin\\Documents\\Java\\gig.txt";
+        int longest = 0;
+        int current = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileLocation))) {
+            int character;
+            while ((character = reader.read()) != -1) {
+                char currentSymbol = (char) character;
+                if (currentSymbol == 'X') {
+                    current++;
+                } else {
+                    if (current > longest) {
+                        longest = current;
+                    }
+                    current = 0;
+                }
+            }
+            // проверка последней последовательности в конце файла
+            if (current > longest) {
+                longest = current;
+            }
+        } catch (IOException e) {
+            System.err.println("Ошибка при чтении файла: " + e.getMessage());
+        }
+        if (longest > 0) {
+            System.out.println("Длина самой длинной последовательности 'X': " + longest);
+        } else {
+            System.out.println("В файле не найдено символов 'X'.");
+        }
+    }
+}
