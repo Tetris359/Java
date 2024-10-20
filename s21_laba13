@@ -1,0 +1,62 @@
+import java.awt.*;
+import java.io.*;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        startDownloadThread("https://storage1.lightaudio.ru/dm/39922504/8d4fbe7/Arctic%20Monkeys%20%E2%80%94%20I%20Wanna%20Be%20Yours.mp3");
+        startDownloadThread("https://i.pinimg.com/control/1200x/ea/ce/5b/eace5b875c4694d48dc03c29385a5620.jpg");
+    }
+
+    public static void downloadFile(String url) {
+        try (InputStream inputStream = new URL(url).openStream()) {
+            byte[] header = new byte[3];
+            if (inputStream.read(header) < 3) {
+                System.out.println("Не удалось прочитать заголовок файла.");
+                return;
+            }
+
+            String extension = determineExtension(header);
+            if (extension == null) {
+                System.out.println("Не удалось определить тип файла.");
+                return;
+            }
+
+            String fullPath = "downloaded_file" + extension;
+
+            try (OutputStream outputStream = new FileOutputStream(fullPath)) {
+                outputStream.write(header);
+                int data;
+                while ((data = inputStream.read()) != -1) {
+                    outputStream.write(data);
+                }
+            }
+
+            System.out.println("Загруженный файл: " + fullPath);
+            Desktop.getDesktop().open(new File(fullPath));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String determineExtension(byte[] header) {
+        Map<String, String> extensionsMap = new HashMap<>();
+        extensionsMap.put("FF D8 FF", ".jpg"); // JPEG
+        extensionsMap.put("89 50 4E", ".png"); // PNG
+        extensionsMap.put("49 44 33", ".mp3"); // MP3
+
+        StringBuilder sb = new StringBuilder();
+        for (byte b : header) {
+            sb.append(String.format("%02X ", b));
+        }
+
+        return extensionsMap.getOrDefault(sb.toString().trim(), null);
+    }
+
+    public static void startDownloadThread(String url) {
+        new Thread(() -> downloadFile(url)).start();
+    }
+}
