@@ -1,0 +1,24 @@
+import java.util.Arrays;
+public class Main { 
+    public static void main(String[] args) {
+        int[] sequence = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26,27,28,29};
+        System.out.println("Максимальная сумма квадратов: " + maxSumOfSquares(sequence));
+    }
+    public static int maxSumOfSquares(int[] sequence) {
+        if (sequence.length < 11) {
+            return 0; // Недостаточно элементов для выполнения условия
+        }
+        // Сортируем последовательность
+        Arrays.sort(sequence);
+        // Находим два максимальных элемента
+        int max1 = sequence[sequence.length - 1];
+        int max2 = sequence[sequence.length - 2];
+        // Находим максимальную сумму квадратов с учетом условия о расстоянии
+        int maxSum = max1 * max1 + max2 * max2;
+        for (int i = sequence.length - 11; i >= 0; i--) {
+            int sum = sequence[sequence.length - 1] * sequence[sequence.length - 1] + sequence[i] * sequence[i];
+            maxSum = Math.max(maxSum, sum);
+        }
+        return maxSum;
+    }
+}
