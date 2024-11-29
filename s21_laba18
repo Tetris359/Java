@@ -1,0 +1,47 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        //начальное времени
+        String[] startTime = scanner.nextLine().split(" ");
+        int startHour = Integer.parseInt(startTime[0]);
+        int startMinute = Integer.parseInt(startTime[1]);
+
+        //конечное времени
+        String[] endTime = scanner.nextLine().split(" ");
+        int endHour = Integer.parseInt(endTime[0]);
+        int endMinute = Integer.parseInt(endTime[1]);
+
+        int totalStrikes = calculateStrikes(startHour, startMinute, endHour, endMinute);
+        System.out.println(totalStrikes);
+    }
+    private static int calculateStrikes(int startHour, int startMinute, int endHour, int endMinute) {
+        int strikes = 0;
+
+        //время к минутам
+        int startTotalMinutes = startHour * 60 + startMinute;
+        int endTotalMinutes = endHour * 60 + endMinute;
+
+        // если конечное время меньше начального, значит мы перешли на следующий день
+        if (endTotalMinutes < startTotalMinutes) {
+            endTotalMinutes += 24 * 60; // Добавляем 24 часа в минуты
+        }
+
+        // проход по всем минутам от начального до конечного времени
+        for (int currentMinute = startTotalMinutes; currentMinute < endTotalMinutes; currentMinute++) {
+            int hourIn12Format = (currentMinute / 60) % 12;
+            if (hourIn12Format == 0) hourIn12Format = 12; //к 12-часовому формату
+
+            // Удары в начале часа
+            if (currentMinute % 60 == 0) {
+                strikes += hourIn12Format; // удары в начале часа
+            }
+
+            // Удары в полчаса
+            if (currentMinute % 60 == 30) {
+                strikes += 1; //удар в полчаса
+            }
+        }
+        return strikes;
+    }
+}
