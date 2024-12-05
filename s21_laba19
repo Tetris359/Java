@@ -1,0 +1,40 @@
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        Set<String> cutCells = new HashSet<>();
+
+        // Чтение координат выпиленных клеток
+        for (int i = 0; i < N; i++) {
+            int row = scanner.nextInt();
+            int column = scanner.nextInt();
+            cutCells.add(row + "," + column);
+        }
+
+        int perimeter = 0;
+
+        // Проверка каждой выпиленой клетки
+        for (String cell : cutCells) {
+            String[] parts = cell.split(",");
+            int row = Integer.parseInt(parts[0]);
+            int col = Integer.parseInt(parts[1]);
+
+            // Начало с 4 стороны
+            int sides = 4;
+
+            // Проверка соседних клеток
+            if (cutCells.contains((row - 1) + "," + col)) sides--; // верх
+            if (cutCells.contains((row + 1) + "," + col)) sides--; // низ
+            if (cutCells.contains(row + "," + (col - 1))) sides--; // лево
+            if (cutCells.contains(row + "," + (col + 1))) sides--; // право
+
+            perimeter += sides;
+        }
+
+        System.out.println(perimeter);
+    }
+}
