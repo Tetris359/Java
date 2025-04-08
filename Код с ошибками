@@ -1,0 +1,67 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Book {
+    private String title;
+    private String author;
+
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+}
+
+public class Library {
+    private List<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(String title, String author) {
+        books.add(new Book(title, author));
+    }
+
+    public List<Book> searchByAuthor(String author) {
+        List<Book> results = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getAuthor().equalsIgnoreCase(author)) {
+                results.add(book);
+            }
+        }
+        return results; // Возможная ошибка: если книги не найдены, может вернуть пустой список без обработки
+    }
+
+    public Book searchByTitle(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
+                return book; // Ошибка: если книга не найдена, должно быть выброшено исключение
+            }
+        }
+        return null; // Ошибка: отсутствие обработки ситуации, когда книга не найдена
+    }
+
+    public static void main(String[] args) {
+        Library library = new Library();
+        library.addBook("1984", "George Orwell");
+        library.addBook("Brave New World", "Aldous Huxley");
+
+        List<Book> orwellBooks = library.searchByAuthor("George Orwell");
+        for (Book book : orwellBooks) {
+            System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
+        }
+
+        Book book = library.searchByTitle("The Great Gatsby"); // Ошибка: книга не найдена, но нет обработки
+        if (book != null) {
+            System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
+        }
+    }
+}
