@@ -1,6 +1,20 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+class Debugger { // Отладочный класс
+    private static final Logger logger = Logger.getLogger(Debugger.class.getName());
+
+    public void logInfo(String message) {
+        logger.log(Level.INFO, message);
+    }
+
+    public void logWarning(String message) {
+        logger.log(Level.WARNING, message);
+    }
+
+}
 
 class Book {
     private final String title;
@@ -22,15 +36,16 @@ class Book {
 
 public class Library {
     private List<Book> books;
-    private static final Logger logger = Logger.getLogger(Library.class.getName());
+    private Debugger debugg;
 
     public Library() {
         books = new ArrayList<>();
+        debugg = new Debugger();
     }
 
     public void addBook(String title, String author) {
         books.add(new Book(title, author));
-        logger.info("Added book: " + title + " by " + author);
+        debugg.logInfo("Added book: " + title + " by " + author);
     }
 
     public List<Book> searchByAuthor(String author) {
@@ -38,11 +53,11 @@ public class Library {
         for (Book book : books) {
             if (book.getAuthor().equalsIgnoreCase(author)) {
                 results.add(book);
-                logger.info("Found book by author " + author + ": " + book.getTitle());
+                debugg.logInfo("Found book by author " + author + ": " + book.getTitle());
             }
         }
-        if (results.isEmpty()) {
-            logger.warning("No books found by author: " + author);
+        if (results.isEmpty()) { // обработка ошибки
+            debugg.logWarning("No books found by author: " + author);
         }
         return results;
     }
@@ -50,11 +65,11 @@ public class Library {
     public Book searchByTitle(String title) {
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
-                logger.info("Found book by title " + title + ": " + book.getTitle());
+                debugg.logInfo("Found book by title " + title + ": " + book.getTitle());
                 return book;
             }
         }
-        logger.warning("Book not found by title: " + title);
+        debugg.logWarning("Book not found by title: " + title); // обработка
         return null;
     }
 
@@ -72,7 +87,7 @@ public class Library {
         if (book != null) {
             System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
         } else {
-            System.out.println("Book not found: The Great Gatsby");
+            System.out.println("Book not found: The Great Gatsby");  //обработка
         }
     }
 }
