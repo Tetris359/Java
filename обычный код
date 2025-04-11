@@ -54,11 +54,6 @@ public class Library {
         library.addBook("1984", "George Orwell");
         library.addBook("Brave New World", "Aldous Huxley");
 
-        List<Book> orwellBooks = library.searchByAuthor("George Orwell");
-        for (Book book : orwellBooks) {
-            System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
-        }
-
         try {
             Book book = library.searchByTitle("The Great Gatsby"); // попытка найти книгу
             System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
