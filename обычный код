@@ -1,19 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-class Debugger {
-    private static final Logger logger = Logger.getLogger(Debugger.class.getName());
-
-    public void logDebug(String message) {
-        logger.log(Level.FINE, message);
-    }
-
-    public void logError(String message) {
-        logger.log(Level.SEVERE, message);
-    }
-}
 
 class Book {
     private String title;
@@ -35,16 +21,13 @@ class Book {
 
 public class Library {
     private List<Book> books;
-    private Debugger debugger;
 
     public Library() {
         books = new ArrayList<>();
-        debugger = new Debugger();
     }
 
     public void addBook(String title, String author) {
         books.add(new Book(title, author));
-        debugger.logDebug("Added book: " + title + " by " + author);
     }
 
     public List<Book> searchByAuthor(String author) {
@@ -54,22 +37,19 @@ public class Library {
                 results.add(book);
             }
         }
-        if (results.isEmpty()) {
-            debugger.logDebug("No books found by author: " + author);
-        }
-        return results;
-    }public Book searchByTitle(String title) {
+        return results; // возвращаем пустой список, если книги не найдены
+    }
+
+    public Book searchByTitle(String title) throws Exception {
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
-                return book;
+                return book; // возвращаем книгу, если найдена
             }
         }
-        debugger.logError("Book not found: " + title);
-        throw new IllegalArgumentException("Book not found: " + title);
+        throw new Exception("Книга с заголовком" + title + " не найдена."); // исключение, если книга не найдена
     }
 
     public static void main(String[] args) {
-        Debugger debugger = new Debugger();
         Library library = new Library();
         library.addBook("1984", "George Orwell");
         library.addBook("Brave New World", "Aldous Huxley");
@@ -80,11 +60,10 @@ public class Library {
         }
 
         try {
-            Book book = library.searchByTitle("The Great Gatsby"); // Обработка ошибки
+            Book book = library.searchByTitle("The Great Gatsby"); // попытка найти книгу
             System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
-        } catch (IllegalArgumentException e) {
-            debugger.logError("An error occurred: " + e.getMessage());
-            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage()); // исключение, если книга не найдена
         }
     }
 }
