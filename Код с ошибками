@@ -43,7 +43,7 @@ public class Library {
     public Book searchByTitle(String title) {
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
-                return book; // Ошибка: если книга не найдена, должно быть выброшено исключение
+                return book; 
             }
         }
         return null; // Ошибка: отсутствие обработки ситуации, когда книга не найдена
