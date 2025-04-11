@@ -43,6 +43,14 @@ public class Library {
     }
 
     public void addBook(String title, String author) {
+        // проверка на дублирование
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
+                debugger.logError("Duplicate book: " + title + " by " + author);
+                throw new IllegalArgumentException("This book already exists in the library: " + title + " by " + author);
+            }
+        }
+
         books.add(new Book(title, author));
         debugger.logDebug("Added book: " + title + " by " + author);
     }
@@ -59,7 +67,8 @@ public class Library {
         }
         return results;
     }
-public Book searchByTitle(String title) {
+
+    public Book searchByTitle(String title) {
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
                 return book;
@@ -72,8 +81,16 @@ public Book searchByTitle(String title) {
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         Library library = new Library();
+        
         library.addBook("1984", "George Orwell");
         library.addBook("Brave New World", "Aldous Huxley");
+
+        try {
+            library.addBook("1984", "George Orwell"); // попытка добавить дубликат
+        } catch (IllegalArgumentException e) {
+            debugger.logError("An error occurred: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
+        }
 
         List<Book> orwellBooks = library.searchByAuthor("George Orwell");
         for (Book book : orwellBooks) {
@@ -81,7 +98,7 @@ public Book searchByTitle(String title) {
         }
 
         try {
-            Book book = library.searchByTitle("The Great Gatsby"); // Обработка ошибки
+            Book book = library.searchByTitle("The Great Gatsby"); // обработка ошибки
             System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
         } catch (IllegalArgumentException e) {
             debugger.logError("An error occurred: " + e.getMessage());
