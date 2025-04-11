@@ -16,8 +16,8 @@ class Debugger {
 }
 
 class Book {
-    private String title;
-    private String author;
+    private final String title;
+    private final String author;
 
     public Book(String title, String author) {
         this.title = title;
@@ -31,11 +31,22 @@ class Book {
     public String getAuthor() {
         return author;
     }
+
+    @Override
+    public String toString() {
+        return title + " by " + author;
+    }
+}
+
+class BookAlreadyExistsException extends IllegalArgumentException {
+    public BookAlreadyExistsException(String message) {
+        super(message);
+    }
 }
 
 public class Library {
-    private List<Book> books;
-    private Debugger debugger;
+    private final List<Book> books;
+    private final Debugger debugger;
 
     public Library() {
         books = new ArrayList<>();
@@ -43,14 +54,11 @@ public class Library {
     }
 
     public void addBook(String title, String author) {
-        // проверка на дублирование
         for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title) && book.getAuthor().equalsIgnoreCase(author)) {
                 debugger.logError("Duplicate book: " + title + " by " + author);
-                throw new IllegalArgumentException("This book already exists in the library: " + title + " by " + author);
             }
         }
-
         books.add(new Book(title, author));
         debugger.logDebug("Added book: " + title + " by " + author);
     }
@@ -81,28 +89,23 @@ public class Library {
     public static void main(String[] args) {
         Debugger debugger = new Debugger();
         Library library = new Library();
-        
+
         library.addBook("1984", "George Orwell");
         library.addBook("Brave New World", "Aldous Huxley");
 
         try {
             library.addBook("1984", "George Orwell"); // попытка добавить дубликат
-        } catch (IllegalArgumentException e) {
+        } catch (BookAlreadyExistsException e) {
             debugger.logError("An error occurred: " + e.getMessage());
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        List<Book> orwellBooks = library.searchByAuthor("George Orwell");
-        for (Book book : orwellBooks) {
-            System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
+            System.out.println(e.getMessage());
         }
 
         try {
             Book book = library.searchByTitle("The Great Gatsby"); // обработка ошибки
-            System.out.println("Found book: " + book.getTitle() + " by " + book.getAuthor());
+            System.out.println("Found book: " + book);
         } catch (IllegalArgumentException e) {
-            debugger.logError("An error occurred: " + e.getMessage());
-            System.out.println("Error: " + e.getMessage());
+            debugger.logError( e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }
