@@ -1,0 +1,102 @@
+package com.company;
+
+abstract class Transport {
+    String name;
+    String features;
+
+    public String toString() {
+        return "Транспорт: " + name + " - " + features;
+    }
+}
+
+class Truck extends Transport {
+    public Truck() {
+        name = "Truck";
+        features = "Перевозка по дороге";
+    }
+}
+
+class Ship extends Transport {
+    public Ship() {
+        name = "Ship";
+        features = "Перевозка по морю";
+    }
+}
+
+// интерфейс для другого типа транспорта
+interface AirTransport {
+    void fly();
+}
+
+class Airplane extends Transport implements AirTransport {
+    public Airplane() {
+        name = "Airplane";
+        features = "Перевозка по воздуху";
+    }
+
+    // ошибка: реализация метода интерфейса без логики
+    public void fly() {
+    }
+}
+
+abstract class TransportFactory {
+    public abstract Transport createTransport();
+}
+
+class TruckFactory extends TransportFactory {
+    @Override
+    public Transport createTransport() {
+        return new Truck();
+    }
+}
+
+class ShipFactory extends TransportFactory {
+    @Override
+    public Transport createTransport() {
+        return new Ship();
+    }
+}
+
+// ошибка: имя класса изменено, что вызовет ошибку компиляции
+class AirplaneFactory extends TransportFactory {
+    @Override
+    public Transport createTransport() {
+        return new Airplan(); // неправильное имя класса
+    }
+}
+
+// создание другой уровень абстракции с неправильной логикой
+class GeneralTransportFactory {
+    public Transport createTransport(String type) {
+        switch (type) {
+            case "Truck":
+                return new Truck();
+            case "Ship":
+                return new Ship();
+            case "Airplane":
+                return new Airplane();
+            default:
+                throw new IllegalArgumentException("Неизвестный тип транспорта");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        TransportFactory truckFactory = new TruckFactory();
+        TransportFactory shipFactory = new ShipFactory();
+        TransportFactory airplaneFactory = new AirplaneFactory(); // ошибка: здесь неправильно имя класса
+
+        // новая фабрика с недопустимым типом
+        GeneralTransportFactory generalFactory = new GeneralTransportFactory();
+        Transport myTruck = truckFactory.createTransport();
+        Transport myShip = shipFactory.createTransport();
+        // ошибка: создание транспорта с недопустимым методом
+        Transport myAirplane = generalFactory.createTransport("Airplane"); // здесь также могло бы произойти исключение
+
+        // ошибка: использование переменной, которая может быть null
+        System.out.println(myTruck.toString());
+        System.out.println(myShip.toString());
+        System.out.println(myAirplane.toString());
+    }
+}
