@@ -75,8 +75,6 @@ class GeneralTransportFactory {
                 return new Ship();
             case "Airplane":
                 return new Airplane();
-            default:
-                throw new IllegalArgumentException("Неизвестный тип транспорта");
         }
     }
 }
