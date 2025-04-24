@@ -1,0 +1,111 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+public class Main {
+
+    static class Point {
+        int x, y;
+
+        Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        int distanceToAxes() {
+            return Math.min(Math.abs(x), Math.abs(y));
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество точек: ");
+        int N = scanner.nextInt();
+        List<Point> points = new ArrayList<>();
+
+        // Чтение точек
+        System.out.println("Введите координаты точек (x y):");
+        for (int i = 0; i < N; i++) {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            if (x != 0 && y != 0) {
+                points.add(new Point(x, y));
+            }
+        }
+        
+        int[] countInQuadrants = new int[4];
+        List<Point>[] pointsInQuadrants = new List[4];
+
+        for (int i = 0; i < 4; i++) {
+            pointsInQuadrants[i] = new ArrayList<>();
+        }
+
+        for (Point point : points) {
+            int quadrant = getQuadrant(point);
+            countInQuadrants[quadrant]++;
+            pointsInQuadrants[quadrant].add(point);
+        }
+
+        int selectedQuadrant = -1;
+        int maxCount = 0;
+        int minDistance = Integer.MAX_VALUE;
+        Point closestPoint = null;
+
+        // Поиск лучшей четверти
+        for (int i = 0; i < 4; i++) {
+            if (countInQuadrants[i] > maxCount) {
+                maxCount = countInQuadrants[i];
+                selectedQuadrant = i;
+                minDistance = Integer.MAX_VALUE; 
+                closestPoint = findClosestPoint(pointsInQuadrants[i]);
+            } else if (countInQuadrants[i] == maxCount && maxCount > 0) {
+                int currentMinDistance = findClosestDistance(pointsInQuadrants[i]);
+                if (currentMinDistance < minDistance) {
+                    minDistance = currentMinDistance;
+                    selectedQuadrant = i;
+                    closestPoint = findClosestPoint(pointsInQuadrants[i]);
+                } else if (currentMinDistance == minDistance) {
+                    if (selectedQuadrant == -1 || (i < selectedQuadrant)) {
+                        selectedQuadrant = i;
+                        closestPoint = findClosestPoint(pointsInQuadrants[i]);
+                    }
+                }
+            }
+        }
+        
+        if (selectedQuadrant != -1) {
+            System.out.println("Координатная четверть K = " + (selectedQuadrant + 1));
+            System.out.println("Количество точек M = " + maxCount);
+            System.out.println("Наименее удаленная точка A = (" + closestPoint.x + ", " + closestPoint.y + ")");
+            System.out.println("Минимальное расстояние R = " + closestPoint.distanceToAxes());
+        } else {
+            System.out.println("Необходимо ввести хотя бы одну точку в каждой четверти.");
+        }
+    }
+
+    private static int getQuadrant(Point point) {
+        if (point.x > 0 && point.y > 0) return 0; 
+        if (point.x < 0 && point.y > 0) return 1; 
+        if (point.x < 0 && point.y < 0) return 2; 
+        return 3; 
+    }
+
+    private static Point findClosestPoint(List<Point> points) {
+        if (points.isEmpty()) return null;
+
+        Point closestPoint = points.get(0);
+        for (Point point : points) {
+            if (point.distanceToAxes() < closestPoint.distanceToAxes()) {
+                closestPoint = point;
+            }
+        }
+        return closestPoint;
+    }
+
+    private static int findClosestDistance(List<Point> points) {
+        int minDistance = Integer.MAX_VALUE;
+        for (Point point : points) {
+            minDistance = Math.min(minDistance, point.distanceToAxes());
+        }
+        return minDistance;
+    }
+}
