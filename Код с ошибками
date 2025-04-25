@@ -91,7 +91,6 @@ public class Main {
         Transport myShip = shipFactory.createTransport();
         Transport myAirplane = generalFactory.createTransport("Car"); // здесь также могло бы произойти исключение
 
-        // ошибка: использование переменной, которая может быть null
         System.out.println(myTruck.toString());
         System.out.println(myShip.toString());
         System.out.println(myAirplane.toString());
