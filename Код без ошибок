@@ -26,6 +26,7 @@ class Ship extends Transport {
     }
 }
 
+// интерфейс для другого типа транспорта
 interface AirTransport {
     void fly();
 }
@@ -36,6 +37,7 @@ class Airplane extends Transport implements AirTransport {
         features = "Перевозка по воздуху";
     }
 
+    // реализация метода интерфейса
     public void fly() {
         System.out.println(name + " взлетает.");
     }
@@ -62,10 +64,11 @@ class ShipFactory extends TransportFactory {
 class AirplaneFactory extends TransportFactory {
     @Override
     public Transport createTransport() {
-        return new Airplane();
+        return new Airplane(); // исправлено имя класса
     }
 }
 
+// создание другой уровень абстракции
 class GeneralTransportFactory {
     public Transport createTransport(String type) {
         switch (type) {
@@ -76,6 +79,7 @@ class GeneralTransportFactory {
             case "Airplane":
                 return new Airplane();
             default:
+                // Логирование ошибки
                 Logger.logError("Неизвестный тип транспорта: " + type);
                 throw new IllegalArgumentException("Неизвестный тип транспорта");
         }
@@ -96,7 +100,7 @@ class Logger {
     }
 }
 
-class TransportRegistry {
+class TransportRegistry { // класс для регистрации и проверки дублирования транспорта
     private List<Transport> transports = new ArrayList<>();
 
     public boolean addTransport(Transport transport) {
@@ -118,39 +122,43 @@ public class Main {
         TransportFactory shipFactory = new ShipFactory();
         TransportFactory airplaneFactory = new AirplaneFactory();
 
+        // новая фабрика с недопустимым типом
         GeneralTransportFactory generalFactory = new GeneralTransportFactory();
-        TransportRegistry registry = new TransportRegistry();
+        TransportRegistry registry = new TransportRegistry(); // Регистратор транспорта
 
         // создание и регистрация транспорта
         Transport myTruck = truckFactory.createTransport();
         registry.addTransport(myTruck);
         Transport myShip = shipFactory.createTransport();
         registry.addTransport(myShip);
-        Transport myAirplane = airplaneFactory.createTransport();
-        registry.addTransport(myAirplane);
+        Transport myairplane = airplaneFactory.createTransport();
+        registry.addTransport(myairplane);
+
+        Transport myAirplane = null;
 
         try {
-            Transport anotherAirplane = generalFactory.createTransport("Airplane");
-            registry.addTransport(anotherAirplane);
+            myAirplane = generalFactory.createTransport("Airplane");
+            registry.addTransport(myAirplane); // регистрация самолета
         } catch (IllegalArgumentException e) {
             Logger.logError(e.getMessage());
         }
 
         // логирование информации о транспорте
         Logger.logFine("Транспорт в системе:");
-        System.out.println(myTruck);
-        System.out.println(myShip);
-        System.out.println(myAirplane);
+        System.out.println(myTruck.toString());
+        System.out.println(myShip.toString());
+        System.out.println(myairplane.toString());
 
-        try {
-            ((Airplane) myAirplane).fly();
-        } catch (ClassCastException e) {
-            Logger.logError("Ошибка: " + e.getMessage());
+        if (myAirplane != null) {
+            System.out.println(myAirplane.toString());
+            ((Airplane) myAirplane).fly(); // вызов метода полета
+        } else {
+            Logger.logDebug("Воздухоплавательное средство не создано.");
         }
 
         // проверка дублирования
         System.out.println("\nПроверка дублирования:");
-        registry.addTransport(new Truck());
-        registry.addTransport(new Ship());
+        registry.addTransport(new Truck()); // попытка добавить дубликат грузовика
+        registry.addTransport(new Ship());  // попытка добавить дубликат корабля
     }
 }
