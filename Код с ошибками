@@ -89,8 +89,7 @@ public class Main {
         GeneralTransportFactory generalFactory = new GeneralTransportFactory();
         Transport myTruck = truckFactory.createTransport();
         Transport myShip = shipFactory.createTransport();
-        // ошибка: создание транспорта с недопустимым методом
-        Transport myAirplane = generalFactory.createTransport("Airplane"); // здесь также могло бы произойти исключение
+        Transport myAirplane = generalFactory.createTransport("Car"); // здесь также могло бы произойти исключение
 
         // ошибка: использование переменной, которая может быть null
         System.out.println(myTruck.toString());
