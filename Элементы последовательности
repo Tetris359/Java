@@ -7,52 +7,63 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        File file = new File("C:\\Users\\savin\\Downloads\\input.txt");
-        Scanner scanner = new Scanner(file);
-
-        List<Integer> numbers = new ArrayList<>();
-        
-        while (scanner.hasNextInt()) {
-            numbers.add(scanner.nextInt());
+    public static void main(String[] args) {
+        try {
+            List<Integer> numberList = readNumbersFromFile("C:\\Users\\savin\\Downloads\\17.txt");
+            CalculationResult result = processNumbers(numberList);
+            System.out.println(result.pairCount + " " + result.maximumSum);
+        } catch (IOException e) {
+            System.err.println("Ошибка при чтении файла: " + e.getMessage());
         }
-        
-        int minFourDigit = Integer.MAX_VALUE;
-        int lastDigit = -1; // изначально не задано
-        int countPairs = 0;
-        int maxSum = Integer.MIN_VALUE;
+    }
 
-
-        for (int num : numbers) { // поиск минимального четырехзначного числа
-            if (num >= 1000 && num < 10000) {
-                if (num < minFourDigit) {
-                    minFourDigit = num;
-                    lastDigit = num % 10; // запоминаем последнюю цифру
-                }
+    private static List<Integer> readNumbersFromFile(String filePath) throws IOException {
+        List<Integer> numberList = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(filePath))) {
+            while (scanner.hasNextInt()) {
+                numberList.add(scanner.nextInt());
             }
         }
-        
-        if (lastDigit == -1) { // если не найдено четырехзначное число
-            System.out.println(0 + " " + 0);
-            return;
-        }
-        
-        for (int i = 0; i < numbers.size() - 1; i++) { // поиск пар чисел
-            int a = numbers.get(i);
-            int b = numbers.get(i + 1);
-            
-            if (a < 105 || b < 105) { // проверка на наличие элемента меньше 105
-                if ((a * b) % 10 == lastDigit) { // проверка условия на произведение
-                    countPairs++;
-                    maxSum = Math.max(maxSum, a + b);
-                }
+        return numberList;
+    }
+
+    private static CalculationResult processNumbers(List<Integer> numberList) {
+        int smallestFourDigit = Integer.MAX_VALUE, lastDigit = -1;
+        for (int number : numberList) {
+            if (isFourDigit(number) && number < smallestFourDigit) {
+                smallestFourDigit = number;
+                lastDigit = number % 10;
             }
         }
-        
-        if (countPairs == 0) { // если не найдено ни одной удовлетворяющей пары
-            maxSum = 0;
+
+        if (lastDigit == -1) return new CalculationResult(0, 0);
+
+        int pairCount = 0, maximumSum = 0;
+        for (int i = 0; i < numberList.size() - 1; i++) {
+            int first = numberList.get(i), second = numberList.get(i + 1);
+            if (isLessThan105(first, second) && (first * second) % 10 == lastDigit) {
+                pairCount++;
+                maximumSum = Math.max(maximumSum, first + second);
+            }
         }
-        
-        System.out.println(countPairs + " " + maxSum);
+
+        return new CalculationResult(pairCount, maximumSum);
+    }
+
+    private static boolean isFourDigit(int number) {
+        return number >= 1000 && number < 10000;
+    }
+
+    private static boolean isLessThan105(int a, int b) {
+        return a < 105 || b < 105;
+    }
+
+    private static class CalculationResult {
+        final int pairCount, maximumSum;
+
+        CalculationResult(int pairCount, int maximumSum) {
+            this.pairCount = pairCount;
+            this.maximumSum = maximumSum;
+        }
     }
 }
