@@ -1,0 +1,24 @@
+package com.company;
+
+public class RaceTimeCalculator {
+    public static void main(String[] args) {
+        int numSections = 3; // количество участков
+        int transferTime = 20; // время переезда
+        int[] sectionATime = {320, 200, 300}; // время прохождения участков A
+        int[] sectionBTime = {150, 440, 210}; // время прохождения участков B
+
+        int totalTimeToA = 0; // общее время движения от A0 до An
+        int minTimeToB = 0; // минимальное время движения от A0 до Bn
+
+        for (int i = 0; i < numSections; i++) {
+            totalTimeToA += sectionATime[i]; // время движения от A0 до An
+
+            int timeViaA = totalTimeToA + transferTime; // время движения с учетом переезда от A к B
+            int timeViaB = minTimeToB + sectionBTime[i]; // время движения до B
+
+            minTimeToB = Math.min(timeViaA, timeViaB); // выбираем минимальное
+        }
+
+        System.out.println(minTimeToB); // выводим результат
+    }
+}
